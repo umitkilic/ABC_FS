@@ -33,13 +33,15 @@ public class Abc_fs {
         
         
         getFitnessValue gfv=new getFitnessValue();
+        int foldnumber=10;
         // fitness değerleri alınıyor
-        foodFitnesses=gfv.getFitness(data, foodSource, attributeSayisi);
+        foodFitnesses=gfv.getFitness(foodSource, foldnumber);
         
-        for (int i = 0; i < attributeSayisi-1; i++) {
+        /*for (int i = 0; i < attributeSayisi-1; i++) {
             System.out.println(foodFitnesses[i]);
-        }
-        
+        }*/
+        EmployedBees eb=new EmployedBees();
+        eb.determineNeighbors(foodSource,3,attributeSayisi); // foodsource: değiştirilecek besin kaynakları, 3: MAX_LIMIT, attributeSayisi: dizileri oluşturmak için
     }
     
 }
