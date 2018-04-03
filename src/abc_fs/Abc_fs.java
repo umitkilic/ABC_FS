@@ -5,6 +5,7 @@
  */
 package abc_fs;
 
+import java.util.List;
 import weka.core.Instances;
 
 /**
@@ -18,8 +19,10 @@ public class Abc_fs {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Instances data;
-        
+        Instances       data;
+        int         dikey_limit=3; // aşağı doğru kaç komsuluk bulunacak
+        int         yatay_limit=3; // geriye doğru kaç komşuluk bulunacak
+        List<foodsource> foodsourceslist; // her bir employed bee işleminden sonra oluşan toplu foodsource burada bulunacak.
         
         initialization_phase ip=new initialization_phase();
         data=ip.readData(); // veri alınıyor
@@ -32,16 +35,15 @@ public class Abc_fs {
         foodSource=ip.createFoodSource(attributeSayisi, foodSource);
         
         
-        getFitnessValue gfv=new getFitnessValue();
-        int foldnumber=10;
+        //getFitnessValue gfv=new getFitnessValue();
+        //int foldnumber=10;
         // fitness değerleri alınıyor
-        foodFitnesses=gfv.getFitness(foodSource, foldnumber);
+        //foodFitnesses=gfv.getFitness(foodSource, foldnumber);
         
-        /*for (int i = 0; i < attributeSayisi-1; i++) {
-            System.out.println(foodFitnesses[i]);
-        }*/
-        EmployedBees eb=new EmployedBees();
-        eb.determineNeighbors(foodSource,3,attributeSayisi); // foodsource: değiştirilecek besin kaynakları, 3: MAX_LIMIT, attributeSayisi: dizileri oluşturmak için
+        
+        EmployedBees e_bee=new EmployedBees();
+        foodsourceslist=e_bee.determineNeighbors(foodSource,dikey_limit,yatay_limit,attributeSayisi); // foodsource: değiştirilecek besin kaynakları, attributeSayisi: dizileri oluşturmak için
+        e_bee.findBestFoodSources(foodSource, foodsourceslist,dikey_limit,yatay_limit);
     }
     
 }
