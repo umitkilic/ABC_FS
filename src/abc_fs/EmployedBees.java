@@ -26,6 +26,7 @@ public class EmployedBees {
         int dikeycount=0,yataycount=0,count=0; // while döngüsü param
         int food2[];
         System.out.println("burada6-2");
+        foodsourceslist.clear(); // her iterasyon öncesinde liste temizleniyor
         for (int j = 0; j < foodSource.length; j++) {
             System.out.println("burada6-3"+" j="+j+ " lenght"+ foodSource.length);
             getFitnessValue     gfv=new getFitnessValue();
@@ -104,7 +105,7 @@ public class EmployedBees {
             n=rand.nextDouble();
 
             // rastgele gelen sayı büyükse değişiklik yap
-            if (n>MR && food2[i]!=1) {food2[i]=1; numofchange++;} 
+            if (n>MR /*&& food2[i]!=1*/) {if(food2[i]==1) {food2[i]=0;} else {food2[i]=1;}numofchange++;} 
 
             //System.out.println("num of change:"+numofchange);
             /*if(numofchange>=3){
@@ -168,6 +169,8 @@ public class EmployedBees {
                     for (int k = 0; k < mainFoodSource.length; k++) {
                         System.out.print(mainfood[i][k]);
                     }
+                    getFitnessValue gfv=new getFitnessValue();
+                    System.out.print(" its fitness: "+gfv.getFitnessOnebyOne(f, 10));
         }// for bitiş
         
         return mainfood;

@@ -20,7 +20,7 @@ import weka.core.Instances;
  */
 public class getFitnessValue {
     
-    public double[] getFitness(int[][] foodSource,int foldnumber){
+    /*public double[] getFitness(int[][] foodSource,int foldnumber){
         Classifier classifier;
         Evaluation eval;
         initialization_phase init=new initialization_phase();
@@ -59,7 +59,7 @@ public class getFitnessValue {
         
         return FoodFitnesses;
         
-    }
+    }*/
     
     public double getFitnessOnebyOne(int[] food,int foldnumber){
         Classifier classifier;
