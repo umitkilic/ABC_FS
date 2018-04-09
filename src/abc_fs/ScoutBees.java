@@ -23,28 +23,28 @@ public class ScoutBees {
         boolean e=true;
         int numofchange=0; // değişiklik sayısı
         int i=0;
+        boolean change=true;
         while(i<newFoodSources.length){
             
-            System.out.println("yeni olusturuluyor: ");
-            for (int j = 0; j < newFoodSources.length; j++) {
+            while(change){
+                for (int j = 0; j < newFoodSources.length; j++) {
                 n=rand.nextDouble();
                 // rastgele gelen sayı büyükse değişiklik yap
                 if (n>MR /*&& food2[i]!=1*/) 
-                { newFoodSources[i][j]=0;}
+                { newFoodSources[i][j]=0; numofchange++; change=false;}
                 else
-                {newFoodSources[i][j]=1;}
+                {newFoodSources[i][j]=1; numofchange++; change=false; }
                 singlefood[j]=newFoodSources[i][j];
-                System.out.print(singlefood[j]);
+                }
             }
+            change=true;
+            
             int othersingle[]=new int[foodSources[0].length];
-            System.out.println("Varolan ile karşılaştırılıyor...\n");
             for (int j = 0; j < foodSources.length; j++) {
                 for (int k = 0; k < foodSources[0].length; k++) {
                     othersingle[k]=foodSources[j][k];
-                    System.out.print(othersingle[k]);
                 }
                 e=Arrays.equals(singlefood,othersingle);
-                System.out.println("Eşit mi?:"+ e);
                 if (e) {
                     break;
                 }

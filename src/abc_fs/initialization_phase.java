@@ -34,7 +34,7 @@ public class initialization_phase {
         Instances                   data=null;
         
         try {
-            String path="glass.arff";
+            String path="hypothyroid.arff";
             source=new ConverterUtils.DataSource(path);
             data=source.getDataSet();
             data.setClassIndex(data.numAttributes()-1); // class indexi belirleniyor
@@ -45,6 +45,34 @@ public class initialization_phase {
         }
           
         return data;
+    }
+    
+    public int findMin(double[] fit){
+        //System.out.print("gelen -> ");
+        //for (int i = 0; i < fit.length; i++) {System.out.println(fit[i]);}
+        double min=1.0;
+        int index=0;
+        for (int i = 0; i < fit.length; i++) {
+            //System.out.print("fit i="+fit[i]+ " min="+min);
+            if (fit[i]<min) {
+                min=fit[i];
+                //System.out.println(" -> min den kucuk. index="+i);
+                index=i;
+            }
+        }
+        return index;
+    }
+    
+    public int findMax(double[] fit){
+        double max=0.0;
+        int index=0;
+        for (int i = 0; i < fit.length; i++) {
+            if (fit[i]>max) {
+                max=fit[i];
+                index=i;
+            }
+        }
+        return index;
     }
     
     

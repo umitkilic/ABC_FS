@@ -20,15 +20,12 @@ public class EmployedBees {
     
     // komşuluk bulma fonksiyonu
     public List<foodsource> determineNeighbors(int[][] foodSource,int dikey_limit,int yatay_limit,int attributeNumber){
-        System.out.println("burada6-1");
         int N=attributeNumber-1; // oluşturulacak diziler için
         int foldnumber=10;
         int dikeycount=0,yataycount=0,count=0; // while döngüsü param
         int food2[];
-        System.out.println("burada6-2");
         foodsourceslist.clear(); // her iterasyon öncesinde liste temizleniyor
         for (int j = 0; j < foodSource.length; j++) {
-            System.out.println("burada6-3"+" j="+j+ " lenght"+ foodSource.length);
             getFitnessValue     gfv=new getFitnessValue();
             double              main_fitness=0.0,neigbor_fitness=0.0;
             int                 food[]=new int[N];
@@ -37,10 +34,8 @@ public class EmployedBees {
             
             // tek food oluşturuluyor
             food=this.getSingleFoodSource(j, N, foodSource); // tek bir food çekiliyor
-            System.out.println("burada6-4");
             best_neigbor_food=food.clone(); // önceki ve sonraki turlardaki komşuluklar buraya aktarılmasın diye başlangıçta main food u en iyisi seçiyoruz
             main_fitness=gfv.getFitnessOnebyOne(food, 10);
-            System.out.println("burada6-5");
             // AŞAĞIDAKİ İŞLEMLER ARTIK YENİ KOMŞULUKLARIN ÜRETİLMESİ İÇİN
             
             
@@ -51,10 +46,9 @@ public class EmployedBees {
             int total=this.getTotalNeighborNumber(yataycount, dikeycount); // TOPLAM OLUŞTURULACAK KOMSULUK SAYISI HESAPLANIYOR
             int countd=0,county=0;
             count=0;
-            System.out.println("burada6-6");
+            System.out.println(" j foodsource lenght:"+ j+ " total:"+total);
             while(count<total){
-                System.out.println("burada6-7"+"count:"+count+" total:"+total);
-                //System.out.println("COUNT:"+ count +" COUNTD:"+ countd + " COUNTY:"+ county);
+                //System.out.println("COUNT:"+ count +" COUNTD:"+ countd + " j foodsource lenght:"+ j+ " total:"+total);
                 if(count%dikeycount==0 && count!=0){
                     food=this.getParent(count+1).getFoodsource();
                     food2=this.findNeighbors(food);
@@ -62,16 +56,13 @@ public class EmployedBees {
                     // komşuluk bulma
                     food2=this.findNeighbors(food);
                 }
-                System.out.println("burada6-8");
                 foodsources=new foodsource(food2);
                 
                 //System.out.print("\nOluşturulan food"+"("+count+")"); for (int i = 0; i < N; i++) {System.out.print(food2[i]);}
 
-                System.out.println("burada6-9");
                 neigbor_fitness=gfv.getFitnessOnebyOne(food2, foldnumber);      foodsources.setFitnessval(neigbor_fitness);
                 //System.out.println("\n neighbor fitness:"+neigbor_fitness +" main fitness:"+main_fitness);
                 foodsourceslist.add(foodsources);
-                System.out.println("burada6-10");
                 //if (neigbor_fitness>main_fitness) { System.out.println("Neighbor daha iyi ("+a+")\n\n\n"); best_neigbor_food=food2.clone(); main_fitness=neigbor_fitness;}
                 count++;
                 countd+=1;
@@ -145,8 +136,8 @@ public class EmployedBees {
         total=this.getTotalNeighborNumber(yatay_limit, dikey_limit);
         
         for (int i = 0; i < mainFoodSource.length; i++) {
-            System.out.println("\n"+i+". mainfood >>>");
             for (int j = listsize*(i+1)-1; j>((listsize*i+dikey_limit)-1); j-=dikeycount) {
+                System.out.println("find bes source ici- i:"+i+" j:"+j);
                 int c=0,maxfoodindex=0; double minfitness=0.0; foodsource parentfood;
                 
                 // bu döngü ile cocukların en iyisinin indisi bulunuyor
@@ -163,14 +154,6 @@ public class EmployedBees {
             for (int g = 0; g < mainFoodSource[0].length; g++) {
                 mainfood[i][g]=f[g];
             }
-            
-            System.out.print("\n\n------------------------------------------------------\n"+i+". adım için en iyisi: ");
-                    
-                    for (int k = 0; k < mainFoodSource.length; k++) {
-                        System.out.print(mainfood[i][k]);
-                    }
-                    getFitnessValue gfv=new getFitnessValue();
-                    System.out.print(" its fitness: "+gfv.getFitnessOnebyOne(f, 10));
         }// for bitiş
         
         return mainfood;
