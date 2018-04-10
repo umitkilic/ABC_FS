@@ -11,6 +11,7 @@ import java.util.Random;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.lazy.IBk;
+import weka.classifiers.trees.RandomForest;
 import weka.core.Debug;
 import weka.core.Instances;
 
@@ -71,6 +72,7 @@ public class getFitnessValue {
         Instances data1=data;
         
         try{
+            //classifier=new RandomForest();
             classifier=new IBk(); // sınıflandırıcı oluşturuldu
             eval=new Evaluation(data1); // degerlendirici olusturuldu
             
