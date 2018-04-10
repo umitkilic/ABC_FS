@@ -5,9 +5,15 @@
  */
 package abc_fs;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import weka.core.Instances;
+import weka.core.converters.ArffSaver;
 import weka.core.converters.ConverterUtils;
 
 /**
@@ -34,7 +40,7 @@ public class initialization_phase {
         Instances                   data=null;
         
         try {
-            String path="hypothyroid.arff";
+            String path="bap_calisan_2017_Mustafa.arff";
             source=new ConverterUtils.DataSource(path);
             data=source.getDataSet();
             data.setClassIndex(data.numAttributes()-1); // class indexi belirleniyor
@@ -48,15 +54,12 @@ public class initialization_phase {
     }
     
     public int findMin(double[] fit){
-        //System.out.print("gelen -> ");
-        //for (int i = 0; i < fit.length; i++) {System.out.println(fit[i]);}
+        
         double min=1.0;
         int index=0;
         for (int i = 0; i < fit.length; i++) {
-            //System.out.print("fit i="+fit[i]+ " min="+min);
             if (fit[i]<min) {
                 min=fit[i];
-                //System.out.println(" -> min den kucuk. index="+i);
                 index=i;
             }
         }
@@ -75,5 +78,29 @@ public class initialization_phase {
         return index;
     }
     
-    
+    public void createARFF(Instances instance,int[] selectedFeatureVector,String fitness){
+        List<Integer> deleteIndexes=new ArrayList<Integer>();
+        
+        for(int i=0;i<selectedFeatureVector.length;i++){
+            if (selectedFeatureVector[i]==0) {
+                deleteIndexes.add(i);
+            }
+        }
+        int girildi=0;
+        try {
+            Instances dataset=instance;
+            for (int i = 0; i < deleteIndexes.size(); i++) {
+                dataset.deleteAttributeAt(deleteIndexes.get(i)-girildi);
+                girildi++;
+            }
+            
+            ArffSaver saver=new ArffSaver();
+            saver.setInstances(dataset);
+            saver.setFile(new File("/"+dataset.relationName()+"_"+fitness+".arff"));
+            saver.writeBatch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
 }

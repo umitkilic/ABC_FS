@@ -12,29 +12,13 @@ import weka.core.Instances;
  *
  * @author Umit Kilic
  */
-public class Abc_fs {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        int                 dikey_limit=3; // aşağı doğru kaç komsuluk bulunacak
-        int                 yatay_limit=3; // geriye doğru kaç komşuluk bulunacak
-        int                 iterationNumber=5;
-        int                 foldnumber=4;
-        Instances data;
-        initialization_phase ip=new initialization_phase();
-        data=ip.readData(); // veri alınıyor
-        Steps s=new Steps();
-        data=s.allSteps(data,dikey_limit, yatay_limit, iterationNumber, foldnumber);
-        System.out.println("numofattr: "+data.numAttributes());
-        //s.allSteps(data,dikey_limit, yatay_limit, iterationNumber, foldnumber);
+public class Steps {
+    public Instances allSteps(Instances data,int dikey_limit, int yatay_limit, int iterationNumber,int foldnumber){
         
-        /*Instances           data;
+        //Instances           data;
         List<foodsource>    foodsourceslist; // her bir employed bee işleminden sonra oluşan toplu foodsource burada bulunacak.
         initialization_phase ip=new initialization_phase();
-        data=ip.readData(); // veri alınıyor
+        //data=ip.readData(); // veri alınıyor
         int                 attributeSayisi=data.numAttributes(); // toplam attribute sayısı alınıyor
         double[]            foodFitnesses=new double[attributeSayisi-1];
         int[][]             foodSource=new int[attributeSayisi-1][attributeSayisi-1];
@@ -172,7 +156,7 @@ public class Abc_fs {
                 }*/
             }
             
-            /*System.out.println("SONUÇ:");
+            System.out.println("SONUÇ:");
             for (int i = 0; i < foodSource.length; i++) {
                 for (int j = 0; j < foodSource[0].length; j++) {
                     System.out.print(foodSource[i][j]);
@@ -205,8 +189,7 @@ public class Abc_fs {
         String fitness=Double.toString(foodFitnesses[index]);
         //int[] sFV=new int[]{0,0,0,1,1,0,0,1,0,0,0,0,0,1,0,1,1,0,1,0,0,0,0,0};
         //fitness="0.8364629566404916";
-        ip.createARFF(data,selectedFeatureVector,fitness);*/
-    //}
-    
-    
+        ip.createARFF(data,selectedFeatureVector,fitness);
+        return data;
+    }
 }

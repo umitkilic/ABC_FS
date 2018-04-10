@@ -19,9 +19,9 @@ public class EmployedBees {
         List<foodsource> foodsourceslist=new ArrayList<>();
     
     // komşuluk bulma fonksiyonu
-    public List<foodsource> determineNeighbors(int[][] foodSource,int dikey_limit,int yatay_limit,int attributeNumber){
+    public List<foodsource> determineNeighbors(int[][] foodSource,int dikey_limit,int yatay_limit,int attributeNumber,int foldnumber){
         int N=attributeNumber-1; // oluşturulacak diziler için
-        int foldnumber=10;
+        //int foldnumber=10;
         int dikeycount=0,yataycount=0,count=0; // while döngüsü param
         int food2[];
         foodsourceslist.clear(); // her iterasyon öncesinde liste temizleniyor
@@ -35,7 +35,7 @@ public class EmployedBees {
             // tek food oluşturuluyor
             food=this.getSingleFoodSource(j, N, foodSource); // tek bir food çekiliyor
             best_neigbor_food=food.clone(); // önceki ve sonraki turlardaki komşuluklar buraya aktarılmasın diye başlangıçta main food u en iyisi seçiyoruz
-            main_fitness=gfv.getFitnessOnebyOne(food, 10);
+            main_fitness=gfv.getFitnessOnebyOne(food, foldnumber);
             // AŞAĞIDAKİ İŞLEMLER ARTIK YENİ KOMŞULUKLARIN ÜRETİLMESİ İÇİN
             
             

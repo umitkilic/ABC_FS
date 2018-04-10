@@ -75,6 +75,7 @@ public class getFitnessValue {
             eval=new Evaluation(data1); // degerlendirici olusturuldu
             
             data1=this.deleteZeros(food, N, data1);
+            //data1=this.deleteZeros(food, food.length, data1);
             
             eval.crossValidateModel(classifier, data1, foldnumber, new Random(1));
             fitness=eval.weightedFMeasure();
