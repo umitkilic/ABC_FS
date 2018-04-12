@@ -32,6 +32,8 @@ public class Abc_fs {
         data=s.allSteps(data,dikey_limit, yatay_limit, iterationNumber, foldnumber,filepath,newfilepath);
         System.out.println("numofattr: "+data.numAttributes());
         
+        
+        
         filepath=newfilepath;
         newfilepath="/file2.arff";
         data=s.allSteps(data,dikey_limit, yatay_limit, iterationNumber, foldnumber,filepath,newfilepath);
@@ -39,6 +41,11 @@ public class Abc_fs {
         
         filepath=newfilepath;
         newfilepath="/file3.arff";
+        data=s.allSteps(data,dikey_limit, yatay_limit, iterationNumber, foldnumber,filepath,newfilepath);
+        System.out.println("numofattr: "+data.numAttributes());
+        
+        filepath=newfilepath;
+        newfilepath="/file4.arff";
         data=s.allSteps(data,dikey_limit, yatay_limit, iterationNumber, foldnumber,filepath,newfilepath);
         System.out.println("numofattr: "+data.numAttributes());
         

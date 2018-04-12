@@ -47,7 +47,6 @@ public class EmployedBees {
             int total=this.getTotalNeighborNumber(yataycount, dikeycount); // TOPLAM OLUŞTURULACAK KOMSULUK SAYISI HESAPLANIYOR
             int countd=0,county=0;
             count=0;
-            System.out.println(" j foodsource lenght:"+ j+ " total:"+total);
             while(count<total){
                 if(count%dikeycount==0 && count!=0){
                     food=this.getParent(count+1).getFoodsource();
@@ -133,7 +132,6 @@ public class EmployedBees {
         total=this.getTotalNeighborNumber(yatay_limit, dikey_limit);
         
         for (int i = 0; i < mainFoodSource.length; i++) {
-            System.out.println("find bes source ici- i:"+i);
             for (int j = listsize*(i+1)-1; j>((listsize*i+dikey_limit)-1); j-=dikeycount) {
                 
                 int c=0,maxfoodindex=0; double minfitness=0.0; foodsource parentfood;

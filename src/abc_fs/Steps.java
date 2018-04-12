@@ -43,13 +43,13 @@ public class Steps {
         while (it_count<iterationNumber) {
             System.out.println("------------------------------------------------------------------------------------------------>>> ITERATION NUMBER= "+it_count);
             
-            System.out.println("BAŞLANGIÇ:");
+            /*System.out.println("BAŞLANGIÇ:");
             for (int i = 0; i < foodSource.length; i++) {
                 for (int j = 0; j < foodSource[0].length; j++) {
                     System.out.print(foodSource[i][j]);
                 }
                 System.out.println(" ");
-            }
+            }*/
         
         for (int i = 0; i < foodFitnesses.length; i++) {
             int m[]=new int[foodSource[0].length];
@@ -62,10 +62,10 @@ public class Steps {
         
         
         foodsourceslist=e_bee.determineNeighbors(foodSource,dikey_limit,yatay_limit,attributeSayisi,foldnumber,pathname); // foodsource: değiştirilecek besin kaynakları, attributeSayisi: dizileri oluşturmak için
-            System.out.println("bitirdi-1.");
+            System.out.print("deter. neig.");
         //------------------------------------------------------------------------------------------------------- ONLOOKER GÖREVİ YAPILIYOR ziyaret edilenler arasında en iyiler bulunuyor
         foodSource_eBees=e_bee.findBestFoodSources(foodSource, foodsourceslist,dikey_limit,yatay_limit).clone();
-        System.out.println("bitirdi-2.");
+        System.out.println(" find. best.");
         for (int i = 0; i < foodFitnesses.length; i++) {
             int m[]=new int[foodSource_eBees[0].length];
             for (int j = 0; j < m.length; j++) {
@@ -121,7 +121,7 @@ public class Steps {
             }
         }
         
-        
+        /*
         for (int i = 0; i < foodSource.length; i++) {
                 System.out.print(i+". -> ");
                 for (int j = 0; j < foodSource[0].length; j++) {
@@ -133,7 +133,7 @@ public class Steps {
                     System.out.print(newfoodsources[i][j]);
                 }
                 System.out.println(" new fitness:"+ newfoodfitnesses[i]);
-        }
+        }*/
         
         // --------------------------------------------------------------------------------------------------------------    scout ve old karşılaştırıp en iyiyi bulma evresi
         initialization_phase ip2=new initialization_phase();
@@ -143,7 +143,7 @@ public class Steps {
                 double oldmin=foodFitnesses[oldminindex];
                 int newmaxindex=ip2.findMax(newfoodfitnesses);
                 double newmax=newfoodfitnesses[newmaxindex];
-                System.out.println("oldmin index:"+oldminindex+" oldmin val="+ oldmin + "|||  newmax index="+newmaxindex+ " newmax val="+newmax);
+                //System.out.println("oldmin index:"+oldminindex+" oldmin val="+ oldmin + "|||  newmax index="+newmaxindex+ " newmax val="+newmax);
                 if (newmax>oldmin) {
                     for (int j = 0; j < foodSource.length; j++) {foodSource[oldminindex][j]=newfoodsources[newmaxindex][j];}
                     foodFitnesses[oldminindex]=newfoodfitnesses[newmaxindex];
@@ -175,7 +175,6 @@ public class Steps {
                 
                 max=foodFitnesses[i];
                 index=i;
-                System.out.println("buyuk. index: "+ index);
             }
         }
         int selectedFeatureVector[]=new int[foodSource[0].length];
