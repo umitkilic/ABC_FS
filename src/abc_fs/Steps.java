@@ -60,16 +60,21 @@ public class Steps {
         System.out.println(" find. best.");
         for (int i = 0; i < foodFitnesses.length; i++) {
             int m[]=new int[foodSource_eBees[0].length];
-            for (int j = 0; j < m.length; j++) {
+            System.arraycopy(foodSource_eBees[i], 0, m, 0, m.length);
+            /*for (int j = 0; j < m.length; j++) {
                 m[j]=foodSource_eBees[i][j];
-            }
+            }*/
             foodFitnesses_eBees[i]=gfv.getFitnessOnebyOne(m, foldnumber,pathname);
         }
         
         //foodFitnesses_eBees=gfv.getFitness(foodSource_eBees, foldnumber);
         for (int k = 0; k < foodSource.length; k++) {
             if (foodFitnesses_eBees[k]>foodFitnesses[k]) {
-                for (int j = 0; j < foodSource[0].length; j++) {  foodSource[k][j]=foodSource_eBees[k][j]; foodFitnesses[k]=foodFitnesses_eBees[k];}
+                System.arraycopy(foodSource_eBees[k], 0, foodSource[k], 0, foodSource[k].length);
+                foodFitnesses[k]=foodFitnesses_eBees[k];
+                /*for (int j = 0; j < foodSource[0].length; j++) {  
+                    foodSource[k][j]=foodSource_eBees[k][j]; foodFitnesses[k]=foodFitnesses_eBees[k];
+                }*/
             } else {
             }
         }
@@ -88,9 +93,10 @@ public class Steps {
         double newfoodfitnesses[]=new double[newfoodsources[0].length];
         for (int i = 0; i < newfoodfitnesses.length; i++) {
             int m[]=new int[newfoodsources[0].length];
-            for (int j = 0; j < m.length; j++) {
+            System.arraycopy(newfoodsources[i], 0, m, 0, m.length);
+            /*for (int j = 0; j < m.length; j++) {
                 m[j]=newfoodsources[i][j];
-            }
+            }*/
             newfoodfitnesses[i]=gfv.getFitnessOnebyOne(m, foldnumber,pathname);
         }
         
@@ -99,33 +105,22 @@ public class Steps {
         foodSource_eBees=e_bee.findBestFoodSources(newfoodsources, foodsourceslist,dikey_limit,yatay_limit).clone();
         for (int i = 0; i < newfoodfitnesses.length; i++) {
             int m[]=new int[foodSource_eBees[0].length];
-            for (int j = 0; j < m.length; j++) {
+            System.arraycopy(foodSource_eBees[i], 0, m, 0, m.length);
+            /*for (int j = 0; j < m.length; j++) {
                 m[j]=foodSource_eBees[i][j];
-            }
+            }*/
             foodFitnesses_eBees[i]=gfv.getFitnessOnebyOne(m, foldnumber,pathname);
         }
         
         for (int k = 0; k < newfoodsources.length; k++) {
             if (foodFitnesses_eBees[k]>newfoodfitnesses[k]) {
-                for (int j = 0; j < foodSource[0].length; j++) {  newfoodsources[k][j]=foodSource_eBees[k][j]; }
+                System.arraycopy(foodSource_eBees[k], 0, newfoodsources[k], 0, newfoodsources[k].length);
+                //for (int j = 0; j < foodSource[0].length; j++) {  newfoodsources[k][j]=foodSource_eBees[k][j]; }
                 newfoodfitnesses[k]=foodFitnesses_eBees[k];
             } else {
             }
         }
         
-        /*
-        for (int i = 0; i < foodSource.length; i++) {
-                System.out.print(i+". -> ");
-                for (int j = 0; j < foodSource[0].length; j++) {
-                    System.out.print(foodSource[i][j]);
-                }
-                System.out.print(" old fitness:"+ foodFitnesses[i] +" ||| ");
-                
-                for (int j = 0; j < newfoodsources[0].length; j++) {
-                    System.out.print(newfoodsources[i][j]);
-                }
-                System.out.println(" new fitness:"+ newfoodfitnesses[i]);
-        }*/
         
         // --------------------------------------------------------------------------------------------------------------    scout ve old karşılaştırıp en iyiyi bulma evresi
         initialization_phase ip2=new initialization_phase();
@@ -135,27 +130,22 @@ public class Steps {
                 double oldmin=foodFitnesses[oldminindex];
                 int newmaxindex=ip2.findMax(newfoodfitnesses);
                 double newmax=newfoodfitnesses[newmaxindex];
-                //System.out.println("oldmin index:"+oldminindex+" oldmin val="+ oldmin + "|||  newmax index="+newmaxindex+ " newmax val="+newmax);
                 if (newmax>oldmin) {
-                    for (int j = 0; j < foodSource.length; j++) {foodSource[oldminindex][j]=newfoodsources[newmaxindex][j];}
+                    //for (int j = 0; j < foodSource.length; j++) {foodSource[oldminindex][j]=newfoodsources[newmaxindex][j];}
+                    System.arraycopy(newfoodsources[newmaxindex], 0, foodSource[oldminindex], 0, foodSource[0].length);
                     foodFitnesses[oldminindex]=newfoodfitnesses[newmaxindex];
                     newfoodfitnesses[newmaxindex]=0.0;
                 }
-                /*if (foodFitnesses[i]<=newfoodfitnesses[i]) {
-                    System.out.println("scout daha iyi");
-                    for (int j = 0; j < foodSource.length; j++) {foodSource[i][j]=newfoodsources[i][j];}
-                    foodFitnesses[i]=newfoodfitnesses[i];
-                }*/
             }
             
-            /*System.out.println("SONUÇ:");
+            System.out.println("SONUÇ:");
             for (int i = 0; i < foodSource.length; i++) {
                 for (int j = 0; j < foodSource[0].length; j++) {
                     System.out.print(foodSource[i][j]);
                 }
                 System.out.print(" fitness:"+ foodFitnesses[i]);
                 System.out.println(" ");
-            }*/
+            }
         
         it_count++;
         }// en dış while bitiş 

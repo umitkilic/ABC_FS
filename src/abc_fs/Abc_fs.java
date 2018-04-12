@@ -21,9 +21,9 @@ public class Abc_fs {
         // TODO code application logic here
         int                 dikey_limit=3; // aşağı doğru kaç komsuluk bulunacak
         int                 yatay_limit=3; // geriye doğru kaç komşuluk bulunacak
-        int                 iterationNumber=1;
+        int                 iterationNumber=5;
         int                 foldnumber=4;
-        String              filepath="C:/iris.arff";
+        String              filepath="C:/bap_calisan_2017_Mustafa.arff";
         int                 fileno=0;
         String              filenostr=Integer.toString(fileno);
         String              newfilepath="/file"+filenostr+".arff";
@@ -34,8 +34,6 @@ public class Abc_fs {
         //data=s.allSteps(data,dikey_limit, yatay_limit, iterationNumber, foldnumber,filepath,newfilepath);
         //System.out.println("numofattr: "+data.numAttributes());
         //while(fileno<10){
-            
-            
             data=s.allSteps(data,dikey_limit, yatay_limit, iterationNumber, foldnumber,filepath,newfilepath);
             System.out.println("numofattr: "+data.numAttributes());
             fileno++;

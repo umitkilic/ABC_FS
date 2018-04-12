@@ -106,7 +106,7 @@ public class EmployedBees {
     public foodsource getParent(int childindex,List<foodsource> foodsourceslist){
         int C=childindex;
         // foodsource=foodsourcelist.get((N*3+1)-1); // cocuk bul
-        double d=((C-1)/3);
+        double d=((C)/3)-1;
         d=Math.ceil(d);
         int e=(int) d;
         foodsources=foodsourceslist.get(e); // parent bull
@@ -119,44 +119,31 @@ public class EmployedBees {
         int     dikeycount=dikey_limit;
         int     f[]=new int[mainFoodSource.length]; // geçici en iyiyi tutuyor
         int     mainfood[][]=new int[mainFoodSource.length][mainFoodSource.length]; // tüm en iyileri tutuyor
-                System.out.println("list size:"+listsize);
                 
-                for (int i = 0; i < foodsourceslist.size(); i++) {
-                    System.out.println(i+". food:");
-                    for (int j = 0; j < foodsourceslist.get(i).getFoodsource().length; j++) {
-                        System.out.print(foodsourceslist.get(i).getFoodsource()[j]);
-                    }
-                    System.out.print(" its fit:"+ foodsourceslist.get(i).getFitnessval());
-                    System.out.println(" ");
-                }
+                
         for (int i = 0; i < mainFoodSource.length; i++) {
             for (int j = listsize*(i+1)-1; j>((listsize*i+dikey_limit)-1); j-=dikeycount) {
                 
-                int c=0,maxfoodindex=0; double minfitness=0.0; foodsource parentfood;
+                int c=0,maxfoodindex=0; double maxfitness=0.0; foodsource parentfood;
                 
                 // bu döngü ile cocukların en iyisinin indisi bulunuyor
                 while(c<dikeycount){ 
-                    if (foodsourceslist.get(j-c).getFitnessval()>minfitness) {maxfoodindex=j-c;}  
+                    if (foodsourceslist.get(j-c).getFitnessval()>maxfitness) {
+                        maxfoodindex=j-c; 
+                        maxfitness=foodsourceslist.get(j-c).getFitnessval();}  
                     c++;}
                 
                 parentfood=this.getParent(maxfoodindex,foodsourceslist);
-                System.out.println("neighbor fit: "+foodsourceslist.get(maxfoodindex).getFitnessval()+" parent fit: "+parentfood.getFitnessval());
                 if(foodsourceslist.get(maxfoodindex).getFitnessval()>parentfood.getFitnessval()){
                     this.getParent(maxfoodindex,foodsourceslist).setFoodsource(foodsourceslist.get(maxfoodindex).getFoodsource());
                     this.getParent(maxfoodindex,foodsourceslist).setFitnessval(foodsourceslist.get(maxfoodindex).getFitnessval());
-                    f=this.getParent(maxfoodindex,foodsourceslist).getFoodsource().clone();
-                    
-                    
-                    System.out.print("f'e yazılan:");
-                    for (int k = 0; k < f.length; k++) {
-                        System.out.print(f[k]);
-                    }
-                    System.out.println(" ");
+                    f=this.getParent(maxfoodindex,foodsourceslist).getFoodsource().clone(); 
                 }
                 
             }
             
             System.arraycopy(f, 0, mainfood[i], 0, f.length);
+            
         }// for bitiş
         
         return mainfood;
