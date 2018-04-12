@@ -9,6 +9,7 @@ import static java.lang.Math.pow;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import weka.core.Instances;
 
 /**
  *
@@ -19,7 +20,7 @@ public class EmployedBees {
         List<foodsource> foodsourceslist=new ArrayList<>();
     
     // komşuluk bulma fonksiyonu
-    public List<foodsource> determineNeighbors(int[][] foodSource,int dikey_limit,int yatay_limit,int attributeNumber,int foldnumber){
+    public List<foodsource> determineNeighbors(int[][] foodSource,int dikey_limit,int yatay_limit,int attributeNumber,int foldnumber,String pathname){
         int N=attributeNumber-1; // oluşturulacak diziler için
         //int foldnumber=10;
         int dikeycount=0,yataycount=0,count=0; // while döngüsü param
@@ -35,7 +36,7 @@ public class EmployedBees {
             // tek food oluşturuluyor
             food=this.getSingleFoodSource(j, N, foodSource); // tek bir food çekiliyor
             best_neigbor_food=food.clone(); // önceki ve sonraki turlardaki komşuluklar buraya aktarılmasın diye başlangıçta main food u en iyisi seçiyoruz
-            main_fitness=gfv.getFitnessOnebyOne(food, foldnumber);
+            main_fitness=gfv.getFitnessOnebyOne(food, foldnumber,pathname);
             // AŞAĞIDAKİ İŞLEMLER ARTIK YENİ KOMŞULUKLARIN ÜRETİLMESİ İÇİN
             
             
@@ -48,7 +49,6 @@ public class EmployedBees {
             count=0;
             System.out.println(" j foodsource lenght:"+ j+ " total:"+total);
             while(count<total){
-                //System.out.println("COUNT:"+ count +" COUNTD:"+ countd + " j foodsource lenght:"+ j+ " total:"+total);
                 if(count%dikeycount==0 && count!=0){
                     food=this.getParent(count+1).getFoodsource();
                     food2=this.findNeighbors(food);
@@ -60,15 +60,12 @@ public class EmployedBees {
                 
                 //System.out.print("\nOluşturulan food"+"("+count+")"); for (int i = 0; i < N; i++) {System.out.print(food2[i]);}
 
-                neigbor_fitness=gfv.getFitnessOnebyOne(food2, foldnumber);      foodsources.setFitnessval(neigbor_fitness);
-                //System.out.println("\n neighbor fitness:"+neigbor_fitness +" main fitness:"+main_fitness);
+                neigbor_fitness=gfv.getFitnessOnebyOne(food2, foldnumber,pathname);      foodsources.setFitnessval(neigbor_fitness);
                 foodsourceslist.add(foodsources);
-                //if (neigbor_fitness>main_fitness) { System.out.println("Neighbor daha iyi ("+a+")\n\n\n"); best_neigbor_food=food2.clone(); main_fitness=neigbor_fitness;}
                 count++;
                 countd+=1;
             }// while bitiş
                     
-                    //System.out.println("\nBest One (Neighbor ve Main dahil): "); for (int i = 0; i < N; i++) {System.out.print(best_neigbor_food[i]);}
         }
         
         return foodsourceslist;
@@ -88,7 +85,7 @@ public class EmployedBees {
         int food2[]=food.clone();
         Random  rand = new Random();
         double  n = rand.nextDouble();
-        double  MR=0.5; // modification rate
+        double  MR=0.3; // modification rate
         
         int numofchange=0; // değişiklik sayısı
         for (int i = 0; i < food2.length; i++) {
@@ -136,8 +133,9 @@ public class EmployedBees {
         total=this.getTotalNeighborNumber(yatay_limit, dikey_limit);
         
         for (int i = 0; i < mainFoodSource.length; i++) {
+            System.out.println("find bes source ici- i:"+i);
             for (int j = listsize*(i+1)-1; j>((listsize*i+dikey_limit)-1); j-=dikeycount) {
-                System.out.println("find bes source ici- i:"+i+" j:"+j);
+                
                 int c=0,maxfoodindex=0; double minfitness=0.0; foodsource parentfood;
                 
                 // bu döngü ile cocukların en iyisinin indisi bulunuyor

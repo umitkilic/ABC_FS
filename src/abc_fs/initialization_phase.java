@@ -35,12 +35,12 @@ public class initialization_phase {
     }
     
     // veriyi oku özellikleri al
-    public Instances readData(){  
+    public Instances readData(String name){  
         ConverterUtils.DataSource   source;
         Instances                   data=null;
         
         try {
-            String path="bap_calisan_2017_Mustafa.arff";
+            String path=name;
             source=new ConverterUtils.DataSource(path);
             data=source.getDataSet();
             data.setClassIndex(data.numAttributes()-1); // class indexi belirleniyor
@@ -78,7 +78,7 @@ public class initialization_phase {
         return index;
     }
     
-    public void createARFF(Instances instance,int[] selectedFeatureVector,String fitness){
+    public void createARFF(Instances instance,int[] selectedFeatureVector,String fitness,String newfilepath){
         List<Integer> deleteIndexes=new ArrayList<Integer>();
         
         for(int i=0;i<selectedFeatureVector.length;i++){
@@ -96,7 +96,8 @@ public class initialization_phase {
             
             ArffSaver saver=new ArffSaver();
             saver.setInstances(dataset);
-            saver.setFile(new File("/"+dataset.relationName()+"_"+fitness+".arff"));
+            //saver.setFile(new File("/"+dataset.relationName()+"_"+fitness+".arff"));
+            saver.setFile(new File(newfilepath));
             saver.writeBatch();
         } catch (Exception e) {
             e.printStackTrace();

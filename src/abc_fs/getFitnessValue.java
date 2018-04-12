@@ -62,11 +62,11 @@ public class getFitnessValue {
         
     }*/
     
-    public double getFitnessOnebyOne(int[] food,int foldnumber){
+    public double getFitnessOnebyOne(int[] food,int foldnumber,String pathname){
         Classifier classifier;
         Evaluation eval;
         initialization_phase init=new initialization_phase();
-        Instances data=init.readData();
+        Instances data=init.readData(pathname);
         int N=data.numAttributes();
         double fitness=0.0;
         Instances data1=data;
@@ -91,6 +91,7 @@ public class getFitnessValue {
     public Instances deleteZeros(int[] food,int N,Instances data2){
         int girildi=0;
         for (int i = 0; i < N-1; i++) {
+            System.out.println("i degeri:"+i+ " N degeri:"+N);
             if(food[i]==0){                
                 data2.deleteAttributeAt(i-girildi);
                 girildi+=1;
