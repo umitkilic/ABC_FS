@@ -21,47 +21,6 @@ import weka.core.Instances;
  */
 public class getFitnessValue {
     
-    /*public double[] getFitness(int[][] foodSource,int foldnumber){
-        Classifier classifier;
-        Evaluation eval;
-        initialization_phase init=new initialization_phase();
-        Instances data=init.readData();
-        
-        int N=data.numAttributes();
-        double FoodFitnesses[]=new double[N-1];
-        Instances data1=data;
-        
-        try{
-            classifier=new IBk(); // sınıflandırıcı oluşturuldu
-            eval=new Evaluation(data1); // degerlendirici olusturuldu
-            
-            
-            for (int i = 0; i < N-1; i++) {
-                data1=init.readData(); // attr silmek için her gönderilişte ilk halinin olması için
-                        int food[]=new int[N-1];
-                        
-                        // tek attribute oluşturuluyor
-                        for (int j = 0; j < N-1; j++) {
-                            food[j]=foodSource[i][j];
-                        }
-                       data1=this.deleteZeros(food, N, data1);
-                        //Debug.Random rand=new Debug.Random(1); // sürekli 1 değeri veriyor?
-                        
-                        //Random rand = new Random();             // üstteki yerine bu kullanıldı !!!
-                        //double  rand1 = rand.nextDouble();
-
-                        eval.crossValidateModel(classifier, data1, foldnumber, new Random(1));
-                        FoodFitnesses[i]=eval.weightedFMeasure();
-            }
-            
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        
-        return FoodFitnesses;
-        
-    }*/
-    
     public double getFitnessOnebyOne(int[] food,int foldnumber,String pathname){
         Classifier classifier;
         Evaluation eval;
@@ -74,10 +33,8 @@ public class getFitnessValue {
         try{
             //classifier=new RandomForest();
             classifier=new IBk(); // sınıflandırıcı oluşturuldu
-            eval=new Evaluation(data1); // degerlendirici olusturuldu
-            
             data1=this.deleteZeros(food, N, data1);
-            //data1=this.deleteZeros(food, food.length, data1);
+            eval=new Evaluation(data1); // degerlendirici olusturuldu
             
             eval.crossValidateModel(classifier, data1, foldnumber, new Random(1));
             fitness=eval.weightedFMeasure();
@@ -89,7 +46,24 @@ public class getFitnessValue {
     
     // sıfırların denk geldiği attributeleri silen fonksiyon
     public Instances deleteZeros(int[] food,int N,Instances data2){
+        List<Integer> deleteIndexes=new ArrayList<Integer>();
+        
+        for(int i=0;i<food.length;i++){
+            if (food[i]==0) {
+                deleteIndexes.add(i);
+            }
+        }
+        
         int girildi=0;
+        
+        Instances dataset=data2;
+        for (int i = 0; i < deleteIndexes.size(); i++) {
+            dataset.deleteAttributeAt(deleteIndexes.get(i)-girildi);
+            girildi++;
+        }
+        
+        return dataset;
+        /*int girildi=0;
         for (int i = 0; i < N-1; i++) {
             if(food[i]==0){                
                 data2.deleteAttributeAt(i-girildi);
@@ -97,6 +71,6 @@ public class getFitnessValue {
             }else{
             }
         }
-        return data2;
+        return data2;*/
     }
 }

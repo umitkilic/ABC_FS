@@ -78,7 +78,7 @@ public class initialization_phase {
         return index;
     }
     
-    public void createARFF(Instances instance,int[] selectedFeatureVector,String fitness,String newfilepath){
+    public void createARFF(Instances instance,int[] selectedFeatureVector,String newfilepath){
         List<Integer> deleteIndexes=new ArrayList<Integer>();
         
         for(int i=0;i<selectedFeatureVector.length;i++){
@@ -96,7 +96,6 @@ public class initialization_phase {
             
             ArffSaver saver=new ArffSaver();
             saver.setInstances(dataset);
-            //saver.setFile(new File("/"+dataset.relationName()+"_"+fitness+".arff"));
             saver.setFile(new File(newfilepath));
             saver.writeBatch();
         } catch (Exception e) {

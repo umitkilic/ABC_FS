@@ -16,16 +16,17 @@ import weka.core.Instances;
  * @author Umit Kilic
  */
 public class EmployedBees {
-        foodsource      foodsources;
-        List<foodsource> foodsourceslist=new ArrayList<>();
-    
+        
+    foodsource      foodsources;
     // komşuluk bulma fonksiyonu
     public List<foodsource> determineNeighbors(int[][] foodSource,int dikey_limit,int yatay_limit,int attributeNumber,int foldnumber,String pathname){
+        
+        List<foodsource> foodsourceslist=new ArrayList<>();
         int N=attributeNumber-1; // oluşturulacak diziler için
-        //int foldnumber=10;
         int dikeycount=0,yataycount=0,count=0; // while döngüsü param
         int food2[];
         foodsourceslist.clear(); // her iterasyon öncesinde liste temizleniyor
+        
         for (int j = 0; j < foodSource.length; j++) {
             getFitnessValue     gfv=new getFitnessValue();
             double              main_fitness=0.0,neigbor_fitness=0.0;
@@ -34,7 +35,7 @@ public class EmployedBees {
             
             
             // tek food oluşturuluyor
-            food=this.getSingleFoodSource(j, N, foodSource); // tek bir food çekiliyor
+            System.arraycopy(foodSource[j], 0, food, 0, foodSource[j].length);
             best_neigbor_food=food.clone(); // önceki ve sonraki turlardaki komşuluklar buraya aktarılmasın diye başlangıçta main food u en iyisi seçiyoruz
             main_fitness=gfv.getFitnessOnebyOne(food, foldnumber,pathname);
             // AŞAĞIDAKİ İŞLEMLER ARTIK YENİ KOMŞULUKLARIN ÜRETİLMESİ İÇİN
@@ -45,24 +46,22 @@ public class EmployedBees {
             yataycount=yatay_limit; // yatak count yatay olarak ne kadar adım gidileceğini belirler
             
             int total=this.getTotalNeighborNumber(yataycount, dikeycount); // TOPLAM OLUŞTURULACAK KOMSULUK SAYISI HESAPLANIYOR
-            int countd=0,county=0;
+            
             count=0;
-            while(count<total){
+            while(count<total){ // komşuluk üretimi burada başlıyor
                 if(count%dikeycount==0 && count!=0){
-                    food=this.getParent(count+1).getFoodsource();
+                    food=this.getParent(count+1,foodsourceslist).getFoodsource();
                     food2=this.findNeighbors(food);
                 }else{
                     // komşuluk bulma
                     food2=this.findNeighbors(food);
                 }
-                foodsources=new foodsource(food2);
                 
-                //System.out.print("\nOluşturulan food"+"("+count+")"); for (int i = 0; i < N; i++) {System.out.print(food2[i]);}
-
-                neigbor_fitness=gfv.getFitnessOnebyOne(food2, foldnumber,pathname);      foodsources.setFitnessval(neigbor_fitness);
+                neigbor_fitness=gfv.getFitnessOnebyOne(food2, foldnumber,pathname);
+                foodsources=new foodsource(food2);
+                foodsources.setFitnessval(neigbor_fitness);
                 foodsourceslist.add(foodsources);
                 count++;
-                countd+=1;
             }// while bitiş
                     
         }
@@ -70,31 +69,25 @@ public class EmployedBees {
         return foodsourceslist;
     }
     
-    // row: çekilecek satır, size: dönecek dizinin boyutu, foodSource: foodun içinden çekeleceği foodSource
-    public int[] getSingleFoodSource(int row,int size,int[][] foodSource){
-        int singleFoodSource[]=new int[size];
-        
-        for (int k  = 0; k < size; k++) {singleFoodSource[k]=foodSource[row][k]; }
-        
-        return singleFoodSource;
-    }
-    
     // komsuluk bul (max değişecek attr sayısı burada ayarlanıyor)
     public int[] findNeighbors(int[] food){
         int food2[]=food.clone();
         Random  rand = new Random();
-        double  n = rand.nextDouble();
+        double  n;
         double  MR=0.3; // modification rate
         
-        int numofchange=0; // değişiklik sayısı
+        //int numofchange=0; // değişiklik sayısı
         for (int i = 0; i < food2.length; i++) {
             //System.out.println("for giris!");
             n=rand.nextDouble();
 
             // rastgele gelen sayı büyükse değişiklik yap
-            if (n>MR /*&& food2[i]!=1*/) {if(food2[i]==1) {food2[i]=0;} else {food2[i]=1;}numofchange++;} 
+            if (n>MR ) {
+                if(food2[i]==1) food2[i]=0; 
+                else food2[i]=1; 
+                //numofchange++;
+            } 
 
-            //System.out.println("num of change:"+numofchange);
             /*if(numofchange>=3){
                 break;
             }*/
@@ -110,9 +103,8 @@ public class EmployedBees {
     }
 
     // ağaç yapısına göre oluşturulduğundan komsulukların parent bilgisi bulunmalı. Parent buradan alınıyor
-    public foodsource getParent(int childindex){
+    public foodsource getParent(int childindex,List<foodsource> foodsourceslist){
         int C=childindex;
-        //System.out.print("\nParent of "+ C +": ");
         // foodsource=foodsourcelist.get((N*3+1)-1); // cocuk bul
         double d=((C-1)/3);
         d=Math.ceil(d);
@@ -125,31 +117,46 @@ public class EmployedBees {
     public int[][] findBestFoodSources(int[][] mainFoodSource,List<foodsource> foodsourceslist,int dikey_limit,int yatay_limit){
         int     listsize=foodsourceslist.size()/mainFoodSource.length;
         int     dikeycount=dikey_limit;
-        int     total=0;
         int     f[]=new int[mainFoodSource.length]; // geçici en iyiyi tutuyor
         int     mainfood[][]=new int[mainFoodSource.length][mainFoodSource.length]; // tüm en iyileri tutuyor
-        
-        total=this.getTotalNeighborNumber(yatay_limit, dikey_limit);
-        
+                System.out.println("list size:"+listsize);
+                
+                for (int i = 0; i < foodsourceslist.size(); i++) {
+                    System.out.println(i+". food:");
+                    for (int j = 0; j < foodsourceslist.get(i).getFoodsource().length; j++) {
+                        System.out.print(foodsourceslist.get(i).getFoodsource()[j]);
+                    }
+                    System.out.print(" its fit:"+ foodsourceslist.get(i).getFitnessval());
+                    System.out.println(" ");
+                }
         for (int i = 0; i < mainFoodSource.length; i++) {
             for (int j = listsize*(i+1)-1; j>((listsize*i+dikey_limit)-1); j-=dikeycount) {
                 
                 int c=0,maxfoodindex=0; double minfitness=0.0; foodsource parentfood;
                 
                 // bu döngü ile cocukların en iyisinin indisi bulunuyor
-                while(c<dikeycount){ if (foodsourceslist.get(j-c).getFitnessval()>minfitness) {maxfoodindex=j-c;}  c++;}
+                while(c<dikeycount){ 
+                    if (foodsourceslist.get(j-c).getFitnessval()>minfitness) {maxfoodindex=j-c;}  
+                    c++;}
                 
-                parentfood=this.getParent(maxfoodindex);
+                parentfood=this.getParent(maxfoodindex,foodsourceslist);
+                System.out.println("neighbor fit: "+foodsourceslist.get(maxfoodindex).getFitnessval()+" parent fit: "+parentfood.getFitnessval());
                 if(foodsourceslist.get(maxfoodindex).getFitnessval()>parentfood.getFitnessval()){
-                    this.getParent(maxfoodindex).setFoodsource(foodsourceslist.get(maxfoodindex).getFoodsource());
-                    this.getParent(maxfoodindex).setFitnessval(foodsourceslist.get(maxfoodindex).getFitnessval());
-                    f=this.getParent(maxfoodindex).getFoodsource().clone();
+                    this.getParent(maxfoodindex,foodsourceslist).setFoodsource(foodsourceslist.get(maxfoodindex).getFoodsource());
+                    this.getParent(maxfoodindex,foodsourceslist).setFitnessval(foodsourceslist.get(maxfoodindex).getFitnessval());
+                    f=this.getParent(maxfoodindex,foodsourceslist).getFoodsource().clone();
+                    
+                    
+                    System.out.print("f'e yazılan:");
+                    for (int k = 0; k < f.length; k++) {
+                        System.out.print(f[k]);
+                    }
+                    System.out.println(" ");
                 }
+                
             }
             
-            for (int g = 0; g < mainFoodSource[0].length; g++) {
-                mainfood[i][g]=f[g];
-            }
+            System.arraycopy(f, 0, mainfood[i], 0, f.length);
         }// for bitiş
         
         return mainfood;
