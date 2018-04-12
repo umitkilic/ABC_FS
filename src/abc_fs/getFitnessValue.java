@@ -21,11 +21,11 @@ import weka.core.Instances;
  */
 public class getFitnessValue {
     
-    public double getFitnessOnebyOne(int[] food,int foldnumber,String pathname){
+    public double getFitnessOnebyOne(int[] food,int foldnumber,String filepath){
         Classifier classifier;
         Evaluation eval;
         initialization_phase init=new initialization_phase();
-        Instances data=init.readData(pathname);
+        Instances data=init.readData(filepath);
         int N=data.numAttributes();
         double fitness=0.0;
         Instances data1=data;
@@ -33,8 +33,8 @@ public class getFitnessValue {
         try{
             //classifier=new RandomForest();
             classifier=new IBk(); // sınıflandırıcı oluşturuldu
-            data1=this.deleteZeros(food, N, data1);
-            eval=new Evaluation(data1); // degerlendirici olusturuldu
+            data=this.deleteZeros(food, N, data);
+            eval=new Evaluation(data); // degerlendirici olusturuldu
             
             eval.crossValidateModel(classifier, data1, foldnumber, new Random(1));
             fitness=eval.weightedFMeasure();

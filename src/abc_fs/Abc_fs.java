@@ -19,11 +19,10 @@ public class Abc_fs {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        int                 dikey_limit=3; // aşağı doğru kaç komsuluk bulunacak
-        int                 yatay_limit=3; // geriye doğru kaç komşuluk bulunacak
-        int                 iterationNumber=5;
-        int                 foldnumber=4;
-        String              filepath="C:/bap_calisan_2017_Mustafa.arff";
+        
+        int                 iterationNumber=20;
+        int                 foldnumber=5;
+        String              filepath="C:/labor.arff";
         int                 fileno=0;
         String              filenostr=Integer.toString(fileno);
         String              newfilepath="/file"+filenostr+".arff";
@@ -34,12 +33,15 @@ public class Abc_fs {
         //data=s.allSteps(data,dikey_limit, yatay_limit, iterationNumber, foldnumber,filepath,newfilepath);
         //System.out.println("numofattr: "+data.numAttributes());
         //while(fileno<10){
+        int                 dikey_limit=3; // aşağı doğru kaç komsuluk bulunacak
+        int                 yatay_limit=3; // geriye doğru kaç komşuluk bulunacak
+        
             data=s.allSteps(data,dikey_limit, yatay_limit, iterationNumber, foldnumber,filepath,newfilepath);
             System.out.println("numofattr: "+data.numAttributes());
-            fileno++;
+            /*fileno++;
             filenostr=Integer.toString(fileno);
             filepath=newfilepath;
-            newfilepath="/file"+filenostr+".arff";
+            newfilepath="/file"+filenostr+".arff";*/
         //}
         
         

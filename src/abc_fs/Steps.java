@@ -44,7 +44,10 @@ public class Steps {
             for (int i = 0; i < foodFitnesses.length; i++) { // üretilen başlangıç değerlerinin fitness değerleri bulunuyor
                 int m[]=new int[foodSource[0].length];
                 System.arraycopy(foodSource[i], 0, m, 0, foodSource[i].length);
+                
+                
                 foodFitnesses[i]=gfv.getFitnessOnebyOne(m, foldnumber,pathname);
+                
                 }
             
         
@@ -55,7 +58,7 @@ public class Steps {
             
             
             
-        //---------------------------------------------------------------------- ONLOOKER GÖREVİ YAPILIYOR ziyaret edilenler arasında en iyiler bulunuyor
+        //------------------------------- ONLOOKER GÖREVİ YAPILIYOR ziyaret edilenler arasında en iyiler bulunuyor
         foodSource_eBees=e_bee.findBestFoodSources(foodSource, foodsourceslist,dikey_limit,yatay_limit).clone();
         System.out.println(" find. best.");
         for (int i = 0; i < foodFitnesses.length; i++) {
@@ -78,11 +81,26 @@ public class Steps {
             } else {
             }
         }
-        
-        
-        
-        
-        ///------------------------------------------------------------------------------------------------------------  SCOUT BEE SECTION
+        System.out.println("foodsources before onlookers");
+            for (int i = 0; i < foodSource.length; i++) {
+                for (int j = 0; j < foodSource[0].length; j++) {
+                    System.out.print(foodSource[i][j]);
+                }
+                System.out.print(" fitness: "+ foodFitnesses[i]);
+                System.out.println(" ");
+            }
+        // ------------------------------------------------------- onlooker bee section
+        OnlookerBees onlookers=new OnlookerBees();
+        foodSource=onlookers.onLook(foodSource, foodFitnesses, pathname);
+            System.out.println("foodsources after onlookers");
+            for (int i = 0; i < foodSource.length; i++) {
+                for (int j = 0; j < foodSource[0].length; j++) {
+                    System.out.print(foodSource[i][j]);
+                }
+                System.out.print(" fitness: "+ foodFitnesses[i]);
+                System.out.println(" ");
+            }
+        ///------------------------------------------------------------------------------------------  SCOUT BEE SECTION
         int newfoodsources[][]=new int[attributeSayisi-1][attributeSayisi-1];
         ScoutBees scout=new ScoutBees();
         newfoodsources=scout.createRandomFoodSource(attributeSayisi, foodSource).clone();
@@ -122,7 +140,7 @@ public class Steps {
         }
         
         
-        // --------------------------------------------------------------------------------------------------------------    scout ve old karşılaştırıp en iyiyi bulma evresi
+        // -------------------------------------------------------------    scout ve old karşılaştırıp en iyiyi bulma evresi
         initialization_phase ip2=new initialization_phase();
         
             for (int i = 0; i < foodSource.length; i++) {

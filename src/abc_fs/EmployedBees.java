@@ -19,7 +19,7 @@ public class EmployedBees {
         
     foodsource      foodsources;
     // komşuluk bulma fonksiyonu
-    public List<foodsource> determineNeighbors(int[][] foodSource,int dikey_limit,int yatay_limit,int attributeNumber,int foldnumber,String pathname){
+    public List<foodsource> determineNeighbors(int[][] foodSource,int dikey_limit,int yatay_limit,int attributeNumber,int foldnumber,String filepath){
         
         List<foodsource> foodsourceslist=new ArrayList<>();
         int N=attributeNumber-1; // oluşturulacak diziler için
@@ -37,7 +37,7 @@ public class EmployedBees {
             // tek food oluşturuluyor
             System.arraycopy(foodSource[j], 0, food, 0, foodSource[j].length);
             best_neigbor_food=food.clone(); // önceki ve sonraki turlardaki komşuluklar buraya aktarılmasın diye başlangıçta main food u en iyisi seçiyoruz
-            main_fitness=gfv.getFitnessOnebyOne(food, foldnumber,pathname);
+            main_fitness=gfv.getFitnessOnebyOne(food, foldnumber,filepath);
             // AŞAĞIDAKİ İŞLEMLER ARTIK YENİ KOMŞULUKLARIN ÜRETİLMESİ İÇİN
             
             
@@ -57,7 +57,7 @@ public class EmployedBees {
                     food2=this.findNeighbors(food);
                 }
                 
-                neigbor_fitness=gfv.getFitnessOnebyOne(food2, foldnumber,pathname);
+                neigbor_fitness=gfv.getFitnessOnebyOne(food2, foldnumber,filepath);
                 foodsources=new foodsource(food2);
                 foodsources.setFitnessval(neigbor_fitness);
                 foodsourceslist.add(foodsources);
