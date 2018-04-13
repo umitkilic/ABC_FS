@@ -20,9 +20,9 @@ public class Abc_fs {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        int                 iterationNumber=20;
+        int                 iterationNumber=40;
         int                 foldnumber=5;
-        String              filepath="C:/labor.arff";
+        String              filepath="C:/bap_calisan_2017_Mustafa.arff";
         int                 fileno=0;
         String              filenostr=Integer.toString(fileno);
         String              newfilepath="/file"+filenostr+".arff";

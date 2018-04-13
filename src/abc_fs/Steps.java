@@ -170,14 +170,28 @@ public class Steps {
         
         double max=0.0;
         int index=0;
+        int numberof1sMaxHave=attributeSayisi-1;
+        int bestone[]=new int[foodSource[0].length];
+        int selectedFeatureVector[]=new int[foodSource[0].length];
+        
         for (int i = 0; i < foodFitnesses.length; i++) {
+            
             if (foodFitnesses[i]>max) {
-                
                 max=foodFitnesses[i];
                 index=i;
+                System.arraycopy(foodSource[i], 0, selectedFeatureVector, 0, bestone.length);
+                numberof1sMaxHave=this.numberof1s(selectedFeatureVector);
+            }else if(foodFitnesses[i]==max){
+                System.arraycopy(foodSource[i], 0, bestone, 0, bestone.length);
+                int bestone1s=this.numberof1s(bestone);
+                if(bestone1s<numberof1sMaxHave){
+                    max=foodFitnesses[i];
+                    index=i;
+                    numberof1sMaxHave=bestone1s;
+                }
             }
         }
-        int selectedFeatureVector[]=new int[foodSource[0].length];
+        
         
         System.out.println("SEÇİLENLER:");
         for (int i = 0; i < foodSource[0].length; i++) {
@@ -189,5 +203,13 @@ public class Steps {
         //fitness="0.8364629566404916";
         ip.createARFF(data,selectedFeatureVector,newpathname);
         return data;
+    }
+    
+    public int numberof1s(int[] f){
+        int t=0;
+        for (int i = 0; i < f.length; i++) {
+            t=t+f[i];
+        }
+        return t;
     }
 }
