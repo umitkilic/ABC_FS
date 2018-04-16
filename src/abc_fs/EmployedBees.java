@@ -48,13 +48,14 @@ public class EmployedBees {
             int total=this.getTotalNeighborNumber(yataycount, dikeycount); // TOPLAM OLUŞTURULACAK KOMSULUK SAYISI HESAPLANIYOR
             
             count=0;
+            int sizeoffsl=foodsourceslist.size();
             while(count<total){ // komşuluk üretimi burada başlıyor
                 if(count%dikeycount==0 && count!=0){
-                    food=this.getParent(count+1,foodsourceslist).getFoodsource();
-                    food2=this.findNeighbors(food);
+                    food=this.getParent(count+sizeoffsl,foodsourceslist,j).getFoodsource();
+                    food2=this.findNeighbors(food,j);
                 }else{
                     // komşuluk bulma
-                    food2=this.findNeighbors(food);
+                    food2=this.findNeighbors(food,j);
                 }
                 
                 neigbor_fitness=gfv.getFitnessOnebyOne(food2, foldnumber,filepath);
@@ -63,22 +64,25 @@ public class EmployedBees {
                 foodsourceslist.add(foodsources);
                 count++;
             }// while bitiş
-                    
+          
         }
         
         return foodsourceslist;
     }
     
     // komsuluk bul (max değişecek attr sayısı burada ayarlanıyor)
-    public int[] findNeighbors(int[] food){
+    public int[] findNeighbors(int[] food,int j){
         int food2[]=food.clone();
         Random  rand = new Random();
         double  n;
-        double  MR=0.3; // modification rate
+        double  MR=0.1; // modification rate
         
         //int numofchange=0; // değişiklik sayısı
         for (int i = 0; i < food2.length; i++) {
             //System.out.println("for giris!");
+            /*if (i==j) { // eğer parent taki ana 1 değişmesi istenmezde bu kullanılır
+                continue;
+            }*/
             n=rand.nextDouble();
 
             // rastgele gelen sayı büyükse değişiklik yap
@@ -103,12 +107,15 @@ public class EmployedBees {
     }
 
     // ağaç yapısına göre oluşturulduğundan komsulukların parent bilgisi bulunmalı. Parent buradan alınıyor
-    public foodsource getParent(int childindex,List<foodsource> foodsourceslist){
+    public foodsource getParent(int childindex,List<foodsource> foodsourceslist,int j){
+        
         int C=childindex;
         // foodsource=foodsourcelist.get((N*3+1)-1); // cocuk bul
         double d=((C)/3)-1;
         d=Math.ceil(d);
         int e=(int) d;
+        e=26*j + e;
+        //System.out.print("\n gelen child:"+C+" dondurulen index: "+e+" ");
         foodsources=foodsourceslist.get(e); // parent bull
             
         return foodsources;
@@ -133,11 +140,11 @@ public class EmployedBees {
                         maxfitness=foodsourceslist.get(j-c).getFitnessval();}  
                     c++;}
                 
-                parentfood=this.getParent(maxfoodindex,foodsourceslist);
+                parentfood=this.getParent(maxfoodindex,foodsourceslist,i);
                 if(foodsourceslist.get(maxfoodindex).getFitnessval()>parentfood.getFitnessval()){
-                    this.getParent(maxfoodindex,foodsourceslist).setFoodsource(foodsourceslist.get(maxfoodindex).getFoodsource());
-                    this.getParent(maxfoodindex,foodsourceslist).setFitnessval(foodsourceslist.get(maxfoodindex).getFitnessval());
-                    f=this.getParent(maxfoodindex,foodsourceslist).getFoodsource().clone(); 
+                    this.getParent(maxfoodindex,foodsourceslist,i).setFoodsource(foodsourceslist.get(maxfoodindex).getFoodsource());
+                    this.getParent(maxfoodindex,foodsourceslist,i).setFitnessval(foodsourceslist.get(maxfoodindex).getFitnessval());
+                    f=this.getParent(maxfoodindex,foodsourceslist,i).getFoodsource().clone(); 
                 }
                 
             }

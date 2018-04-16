@@ -58,15 +58,13 @@ public class Steps {
             
             
             
-        //------------------------------- ONLOOKER GÖREVİ YAPILIYOR ziyaret edilenler arasında en iyiler bulunuyor
+        //------------------------------- ziyaret edilenler arasında en iyiler bulunuyor
         foodSource_eBees=e_bee.findBestFoodSources(foodSource, foodsourceslist,dikey_limit,yatay_limit).clone();
         System.out.println(" find. best.");
         for (int i = 0; i < foodFitnesses.length; i++) {
             int m[]=new int[foodSource_eBees[0].length];
             System.arraycopy(foodSource_eBees[i], 0, m, 0, m.length);
-            /*for (int j = 0; j < m.length; j++) {
-                m[j]=foodSource_eBees[i][j];
-            }*/
+            
             foodFitnesses_eBees[i]=gfv.getFitnessOnebyOne(m, foldnumber,pathname);
         }
         

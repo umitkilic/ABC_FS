@@ -32,7 +32,7 @@ public class getFitnessValue {
         
         try{
             //classifier=new RandomForest();
-            classifier=new IBk(); // sınıflandırıcı oluşturuldu
+            classifier=new IBk(3); // sınıflandırıcı oluşturuldu
             data=this.deleteZeros(food, N, data);
             eval=new Evaluation(data); // degerlendirici olusturuldu
             
