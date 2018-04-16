@@ -13,7 +13,7 @@ import weka.core.Instances;
  * @author Umit Kilic
  */
 public class Steps {
-    public Instances allSteps(Instances data,int dikey_limit, int yatay_limit, int iterationNumber,int foldnumber,String pathname,String newpathname){
+    public Instances allSteps(Instances data,int dikey_limit, int yatay_limit, int iterationNumber,int foldnumber,String pathname,String newpathname,double MR){
         
         List<foodsource>    foodsourceslist; // her bir employed bee işleminden sonra oluşan toplu foodsource burada bulunacak.
         initialization_phase ip=new initialization_phase();
@@ -44,8 +44,6 @@ public class Steps {
             for (int i = 0; i < foodFitnesses.length; i++) { // üretilen başlangıç değerlerinin fitness değerleri bulunuyor
                 int m[]=new int[foodSource[0].length];
                 System.arraycopy(foodSource[i], 0, m, 0, foodSource[i].length);
-                
-                
                 foodFitnesses[i]=gfv.getFitnessOnebyOne(m, foldnumber,pathname);
                 
                 }
@@ -53,7 +51,7 @@ public class Steps {
         
         
         // foodsource: değiştirilecek besin kaynakları, attributeSayisi: dizileri oluşturmak için
-        foodsourceslist=e_bee.determineNeighbors(foodSource,dikey_limit,yatay_limit,attributeSayisi,foldnumber,pathname); 
+        foodsourceslist=e_bee.determineNeighbors(foodSource,dikey_limit,yatay_limit,attributeSayisi,foldnumber,MR,pathname); 
             System.out.print("deter. neig.");
             
             
@@ -64,19 +62,22 @@ public class Steps {
         for (int i = 0; i < foodFitnesses.length; i++) {
             int m[]=new int[foodSource_eBees[0].length];
             System.arraycopy(foodSource_eBees[i], 0, m, 0, m.length);
-            
             foodFitnesses_eBees[i]=gfv.getFitnessOnebyOne(m, foldnumber,pathname);
         }
         
-        //foodFitnesses_eBees=gfv.getFitness(foodSource_eBees, foldnumber);
+        // employedbee lerden gelen foodfitness lar daha iyi mi diye kontrol ediliyor
         for (int k = 0; k < foodSource.length; k++) {
             if (foodFitnesses_eBees[k]>foodFitnesses[k]) {
                 System.arraycopy(foodSource_eBees[k], 0, foodSource[k], 0, foodSource[k].length);
-                foodFitnesses[k]=foodFitnesses_eBees[k];
-                /*for (int j = 0; j < foodSource[0].length; j++) {  
-                    foodSource[k][j]=foodSource_eBees[k][j]; foodFitnesses[k]=foodFitnesses_eBees[k];
-                }*/
-            } else {
+                foodFitnesses[k]=foodFitnesses_eBees[k];    
+            } else if(foodFitnesses_eBees[k]==foodFitnesses[k]){
+                int f[]=new int[foodSource.length];
+                int f_ebees[]=new int[foodSource.length];
+                System.arraycopy(foodSource[k], 0, f, 0, f.length);
+                System.arraycopy(foodSource_eBees[k], 0, f_ebees, 0, f_ebees.length);
+                if (this.numberof1s(f)>this.numberof1s(f_ebees)) {
+                    System.arraycopy(f_ebees, 0, foodSource[k], 0, f_ebees.length);
+                }
             }
         }
         System.out.println("foodsources before onlookers");
@@ -89,7 +90,7 @@ public class Steps {
             }
         // ------------------------------------------------------- onlooker bee section
         OnlookerBees onlookers=new OnlookerBees();
-        foodSource=onlookers.onLook(foodSource, foodFitnesses, pathname);
+        foodSource=onlookers.onLook(foodSource, foodFitnesses,foldnumber, pathname,MR);
             System.out.println("foodsources after onlookers");
             for (int i = 0; i < foodSource.length; i++) {
                 for (int j = 0; j < foodSource[0].length; j++) {
@@ -101,7 +102,7 @@ public class Steps {
         ///------------------------------------------------------------------------------------------  SCOUT BEE SECTION
         int newfoodsources[][]=new int[attributeSayisi-1][attributeSayisi-1];
         ScoutBees scout=new ScoutBees();
-        newfoodsources=scout.createRandomFoodSource(attributeSayisi, foodSource).clone();
+        newfoodsources=scout.createRandomFoodSource(attributeSayisi, foodSource,MR).clone();
         
         
         // scout bee ler yeni kaynaklar buldu
@@ -116,7 +117,7 @@ public class Steps {
             newfoodfitnesses[i]=gfv.getFitnessOnebyOne(m, foldnumber,pathname);
         }
         
-        foodsourceslist=e_bee.determineNeighbors(newfoodsources,dikey_limit,yatay_limit,attributeSayisi,foldnumber,pathname); // foodsource: değiştirilecek besin kaynakları, attributeSayisi: dizileri oluşturmak için
+        foodsourceslist=e_bee.determineNeighbors(newfoodsources,dikey_limit,yatay_limit,attributeSayisi,foldnumber,MR,pathname); // foodsource: değiştirilecek besin kaynakları, attributeSayisi: dizileri oluşturmak için
         // ONLOOKER GÖREVİ YAPILIYOR ziyaret edilenler arasında en iyiler bulunuyor
         foodSource_eBees=e_bee.findBestFoodSources(newfoodsources, foodsourceslist,dikey_limit,yatay_limit).clone();
         for (int i = 0; i < newfoodfitnesses.length; i++) {

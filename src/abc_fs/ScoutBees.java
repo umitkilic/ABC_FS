@@ -14,11 +14,11 @@ import java.util.Random;
  */
 public class ScoutBees {
     
-    public int[][] createRandomFoodSource(int attrNumber,int[][] foodSources){
+    public int[][] createRandomFoodSource(int attrNumber,int[][] foodSources,double MR){
         int     newFoodSources[][]=new int[attrNumber-1][attrNumber-1];
         Random  rand = new Random();
         double  n = rand.nextDouble();
-        double  MR=0.5; // modification rate
+        //double  MR=0.5; // modification rate
         int singlefood[]=new int[attrNumber-1];
         boolean e=true;
         int numofchange=0; // değişiklik sayısı

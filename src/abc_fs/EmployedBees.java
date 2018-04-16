@@ -19,7 +19,7 @@ public class EmployedBees {
         
     foodsource      foodsources;
     // komşuluk bulma fonksiyonu
-    public List<foodsource> determineNeighbors(int[][] foodSource,int dikey_limit,int yatay_limit,int attributeNumber,int foldnumber,String filepath){
+    public List<foodsource> determineNeighbors(int[][] foodSource,int dikey_limit,int yatay_limit,int attributeNumber,int foldnumber,double MR,String filepath){
         
         List<foodsource> foodsourceslist=new ArrayList<>();
         int N=attributeNumber-1; // oluşturulacak diziler için
@@ -52,10 +52,10 @@ public class EmployedBees {
             while(count<total){ // komşuluk üretimi burada başlıyor
                 if(count%dikeycount==0 && count!=0){
                     food=this.getParent(count+sizeoffsl,foodsourceslist,j).getFoodsource();
-                    food2=this.findNeighbors(food,j);
+                    food2=this.findNeighbors(food,j,MR);
                 }else{
                     // komşuluk bulma
-                    food2=this.findNeighbors(food,j);
+                    food2=this.findNeighbors(food,j,MR);
                 }
                 
                 neigbor_fitness=gfv.getFitnessOnebyOne(food2, foldnumber,filepath);
@@ -71,11 +71,11 @@ public class EmployedBees {
     }
     
     // komsuluk bul (max değişecek attr sayısı burada ayarlanıyor)
-    public int[] findNeighbors(int[] food,int j){
+    public int[] findNeighbors(int[] food,int j,double MR){
         int food2[]=food.clone();
         Random  rand = new Random();
         double  n;
-        double  MR=0.1; // modification rate
+        //double  MR=0.1; // modification rate
         
         //int numofchange=0; // değişiklik sayısı
         for (int i = 0; i < food2.length; i++) {

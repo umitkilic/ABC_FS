@@ -22,6 +22,7 @@ public class Abc_fs {
         
         int                 iterationNumber=100;
         int                 foldnumber=10;
+        double              MR=0.1;
         String              filepath="C:/bap_calisan_2017_Mustafa.arff";
         int                 fileno=0;
         String              filenostr=Integer.toString(fileno);
@@ -36,7 +37,7 @@ public class Abc_fs {
         int                 dikey_limit=3; // aşağı doğru kaç komsuluk bulunacak
         int                 yatay_limit=3; // geriye doğru kaç komşuluk bulunacak
         
-            data=s.allSteps(data,dikey_limit, yatay_limit, iterationNumber, foldnumber,filepath,newfilepath);
+            data=s.allSteps(data,dikey_limit, yatay_limit, iterationNumber, foldnumber,filepath,newfilepath,MR);
             System.out.println("numofattr: "+data.numAttributes());
             /*fileno++;
             filenostr=Integer.toString(fileno);
