@@ -77,6 +77,7 @@ public class Steps {
                 System.arraycopy(foodSource_eBees[k], 0, f_ebees, 0, f_ebees.length);
                 if (this.numberof1s(f)>this.numberof1s(f_ebees)) {
                     System.arraycopy(f_ebees, 0, foodSource[k], 0, f_ebees.length);
+                    foodFitnesses[k]=foodFitnesses_eBees[k];
                 }
             }
         }
