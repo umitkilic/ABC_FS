@@ -38,6 +38,7 @@ public class getFitnessValue {
             
             eval.crossValidateModel(classifier, data1, foldnumber, new Random(1));
             fitness=eval.weightedFMeasure();
+            //fitness=eval.pctCorrect();
         }catch(Exception ex){
             ex.printStackTrace();
         }

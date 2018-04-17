@@ -7,6 +7,7 @@ package abc_fs;
 
 import static java.lang.Math.pow;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import weka.core.Instances;
@@ -35,9 +36,11 @@ public class EmployedBees {
             
             
             // tek food oluşturuluyor
-            System.arraycopy(foodSource[j], 0, food, 0, foodSource[j].length);
+            System.arraycopy(foodSource[j], 0, food, 0, food.length);
             best_neigbor_food=food.clone(); // önceki ve sonraki turlardaki komşuluklar buraya aktarılmasın diye başlangıçta main food u en iyisi seçiyoruz
             main_fitness=gfv.getFitnessOnebyOne(food, foldnumber,filepath);
+            
+            
             // AŞAĞIDAKİ İŞLEMLER ARTIK YENİ KOMŞULUKLARIN ÜRETİLMESİ İÇİN
             
             
@@ -74,9 +77,7 @@ public class EmployedBees {
     public int[] findNeighbors(int[] food,int j,double MR){
         int food2[]=food.clone();
         Random  rand = new Random();
-        double  n;
-        //double  MR=0.1; // modification rate
-        
+        double  n;        
         //int numofchange=0; // değişiklik sayısı
         for (int i = 0; i < food2.length; i++) {
             //System.out.println("for giris!");
@@ -129,7 +130,9 @@ public class EmployedBees {
                 
                 
         for (int i = 0; i < mainFoodSource.length; i++) {
-            for (int j = listsize*(i+1)-1; j>((listsize*i+dikey_limit)-1); j-=dikeycount) {
+            //System.out.println("j:"+(listsize*(i+1)-1)+" edge:"+((listsize*i+dikey_limit)-3));
+            int j=0;
+            for (j = listsize*(i+1)-1; j>((listsize*i+dikey_limit)-1); j-=dikeycount) {
                 
                 int c=0,maxfoodindex=0; double maxfitness=0.0; foodsource parentfood;
                 
@@ -138,21 +141,51 @@ public class EmployedBees {
                     if (foodsourceslist.get(j-c).getFitnessval()>maxfitness) {
                         maxfoodindex=j-c; 
                         maxfitness=foodsourceslist.get(j-c).getFitnessval();}  
-                    c++;}
+                    c++;
+                }
                 
                 parentfood=this.getParent(maxfoodindex,foodsourceslist,i);
+                //System.out.println("max in child:"+maxfoodindex+"child fit.:"+ foodsourceslist.get(maxfoodindex).getFitnessval()+" parent fit.:"+parentfood.getFitnessval());
                 if(foodsourceslist.get(maxfoodindex).getFitnessval()>parentfood.getFitnessval()){
                     this.getParent(maxfoodindex,foodsourceslist,i).setFoodsource(foodsourceslist.get(maxfoodindex).getFoodsource());
                     this.getParent(maxfoodindex,foodsourceslist,i).setFitnessval(foodsourceslist.get(maxfoodindex).getFitnessval());
                     f=this.getParent(maxfoodindex,foodsourceslist,i).getFoodsource().clone(); 
                 }
                 
+                
+            }
+            double maxfitness=0.0;
+            int maxfoodindex=0;
+            int s=0;
+            while(s!=dikey_limit){
+                //System.out.println(j+". parent food:"+Arrays.toString(foodsourceslist.get(j).getFoodsource())+ " fitness:"+foodsourceslist.get(j).getFitnessval());
+                if(foodsourceslist.get(j).getFitnessval()>maxfitness){
+                    f=foodsourceslist.get(j).getFoodsource().clone();
+                    maxfoodindex=j;
+                    maxfitness=foodsourceslist.get(j).getFitnessval();
+                }else if(foodsourceslist.get(j).getFitnessval()==maxfitness){
+                    if (this.numberof1s(foodsourceslist.get(j).getFoodsource())>this.numberof1s(f)) {
+                        f=foodsourceslist.get(j).getFoodsource().clone();
+                        maxfoodindex=j;
+                        maxfitness=foodsourceslist.get(j).getFitnessval();
+                    }
+                }
+                j--;
+                s++;
             }
             
             System.arraycopy(f, 0, mainfood[i], 0, f.length);
-            
+            //System.out.println("secildi:"+ Arrays.toString(f)+" foodlistten:"+Arrays.toString(foodsourceslist.get(maxfoodindex).getFoodsource())+" fitnes:"+foodsourceslist.get(maxfoodindex).getFitnessval());
         }// for bitiş
         
         return mainfood;
+    }
+    
+    public int numberof1s(int[] f){
+        int t=0;
+        for (int i = 0; i < f.length; i++) {
+            t=t+f[i];
+        }
+        return t;
     }
 }
