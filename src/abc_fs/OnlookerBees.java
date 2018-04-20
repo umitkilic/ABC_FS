@@ -17,7 +17,7 @@ import java.util.Random;
 public class OnlookerBees {
     public int[][] onLook(int[][] foodsources,double[] foodfitnesses,int foldnumber,String filepath,double MR){
         getFitnessValue     gfv=new getFitnessValue();
-        Random              rand = new Random();
+        Random              rand = new Random(1);
         double              n;
         int                 f[][]=new int[foodsources.length][foodsources[0].length]; // her bir food sourceden olusturulacak feature sayısı kadar foodsource
         int                 f_one[]=new int[f[0].length];
@@ -35,7 +35,7 @@ public class OnlookerBees {
                 for (int j = 0; j < f[0].length; j++) { // onlookerlar değişikliği burada yapıyor 1 yerine 0 yazıyor
                     n=rand.nextDouble();
                     numof1=this.numberof1s(numof1sfood);
-                    if(n>MR && f[i][j]!=0 && numof1>1){f[i][j]=0;}
+                    if(n<MR && f[i][j]!=0 && numof1>1){f[i][j]=0;}
                     System.arraycopy(f[i], 0, numof1sfood, 0, numof1sfood.length);    
                 }
                 System.arraycopy(f[i], 0, f_one, 0, f[i].length);
@@ -43,28 +43,6 @@ public class OnlookerBees {
                 i++;
             }
            
-           /*System.out.println("Foodsource 2:");
-            for (int r=0;r<foodsources.length;r++) {
-                System.out.print(r+". foodsource:"+ Arrays.toString(foodsources[r]) +" fitness:"+foodfitnesses[r]);
-                System.out.println(" ");    
-            }*/
-            /*
-            int maxfitindex=findMax(f_fitness);
-            if (f_fitness[maxfitindex]>foodfitnesses[k]) {
-                foodfitnesses[k]=f_fitness[maxfitindex];
-                System.arraycopy(f[maxfitindex], 0, foodsources[k], 0, f[0].length);
-            }else if(f_fitness[maxfitindex]==foodfitnesses[maxfitindex]){
-                int f_onlooker[]=new int[foodsources.length];
-                int f_food[]=new int[foodsources.length];
-                System.arraycopy(f[maxfitindex], 0, f_onlooker, 0, f[0].length);
-                System.arraycopy(foodsources[k], 0, f_food, 0, f[0].length);
-                if (this.numberof1s(f_onlooker)<this.numberof1s(f_food)) {
-                    foodfitnesses[k]=f_fitness[maxfitindex];
-                    System.arraycopy(f_onlooker, 0, foodsources[k], 0, f_onlooker.length);
-                }
-            }*/
-            
-        //}
         
         return f;
     }

@@ -233,8 +233,11 @@ public class Steps {
                 System.out.println(" ");
             }
         
+           
         it_count++;
         }// en dış while bitiş 
+        
+        
         
         double max=0.0;
         int index=0;

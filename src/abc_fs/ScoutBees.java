@@ -16,7 +16,7 @@ public class ScoutBees {
     
     public int[][] createRandomFoodSource(int attrNumber,int[][] foodSources,double MR){
         int     newFoodSources[][]=new int[attrNumber-1][attrNumber-1];
-        Random  rand = new Random();
+        Random  rand = new Random(1);
         double  n;
         //double  MR=0.5; // modification rate
         int singlefood[]=new int[attrNumber-1];

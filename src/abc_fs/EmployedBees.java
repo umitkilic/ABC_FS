@@ -76,7 +76,7 @@ public class EmployedBees {
     // komsuluk bul (max değişecek attr sayısı burada ayarlanıyor)
     public int[] findNeighbors(int[] food,int j,double MR){
         int food2[]=food.clone();
-        Random  rand = new Random();
+        Random  rand = new Random(1);
         double  n;        
         //int numofchange=0; // değişiklik sayısı
         for (int i = 0; i < food2.length; i++) {
@@ -87,9 +87,11 @@ public class EmployedBees {
             n=rand.nextDouble();
 
             // rastgele gelen sayı büyükse değişiklik yap
-            if (n>MR ) {
-                if(food2[i]==1) food2[i]=0; 
-                else food2[i]=1; 
+            if (n<MR ) {
+                /*if(food2[i]==1) 
+                    food2[i]=0; 
+                else */
+                    food2[i]=1; 
                 //numofchange++;
             } 
 
