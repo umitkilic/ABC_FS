@@ -37,8 +37,8 @@ public class getFitnessValue {
             eval=new Evaluation(data); // degerlendirici olusturuldu
             
             eval.crossValidateModel(classifier, data1, foldnumber, new Random(1));
-            fitness=eval.weightedFMeasure();
-            //fitness=eval.pctCorrect();
+            //fitness=eval.weightedFMeasure();
+            fitness=eval.pctCorrect();
         }catch(Exception ex){
             ex.printStackTrace();
         }

@@ -19,9 +19,9 @@ public class Abc_fs {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        int                 iterationNumber=50;
+        int                 iterationNumber=100;
         int                 foldnumber=10;
-        double              MR=0.2;
+        double              MR=0.3;
         String              filepath="C:/bap_calisan_2017_Mustafa.arff";
         int                 fileno=0;
         String              filenostr=Integer.toString(fileno);
