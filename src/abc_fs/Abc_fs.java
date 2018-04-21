@@ -19,7 +19,7 @@ public class Abc_fs {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        int                 iterationNumber=100;
+        int                 iterationNumber=15;
         int                 foldnumber=10;
         double              MR=0.3;
         String              filepath="C:/bap_calisan_2017_Mustafa.arff";

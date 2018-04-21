@@ -25,26 +25,38 @@ public class OnlookerBees {
        
             
         double f_fitness[]=new double[f[0].length];
-        //for (int k = 0; k < foodsources.length; k++) {
             int i=0;
             while(i<foodsources.length){
                 System.arraycopy(foodsources[i], 0, f[i], 0, f.length);
                 int numof1sfood[]=new int[f.length];
                 System.arraycopy(f[i], 0, numof1sfood, 0, numof1sfood.length);
                 int numof1=this.numberof1s(numof1sfood);
+                
                 for (int j = 0; j < f[0].length; j++) { // onlookerlar değişikliği burada yapıyor 1 yerine 0 yazıyor
                     n=rand.nextDouble();
                     numof1=this.numberof1s(numof1sfood);
                     if(n<MR && f[i][j]!=0 && numof1>1){f[i][j]=0;}
                     System.arraycopy(f[i], 0, numof1sfood, 0, numof1sfood.length);    
                 }
+                
                 System.arraycopy(f[i], 0, f_one, 0, f[i].length);
+                
                 f_fitness[i]=gfv.getFitnessOnebyOne(f_one, foldnumber, filepath);
-                i++;
+                i++;    
             }
-           
         
         return f;
+    }
+    
+    public boolean isExist(int[][] foods,int food[]){
+        boolean exist=false;
+        int temp[]=new int[food.length];
+        for (int j = 0; j < foods.length; j++) {
+            System.arraycopy(foods[j], 0, temp, 0, temp.length);
+            if (Arrays.equals(food, temp)) {exist=true; break;}
+        }
+        
+        return exist;
     }
     
     public int findMax(double fitnesses[]){

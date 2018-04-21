@@ -266,10 +266,10 @@ public class Steps {
         
         System.out.println("SEÇİLENLER:");
         for (int i = 0; i < foodSource[0].length; i++) {
-            System.out.print(foodSource[index][i]);
-            selectedFeatureVector[i]=foodSource[index][i];
+            System.arraycopy(foodSource[index], 0, selectedFeatureVector, 0, selectedFeatureVector.length);
         }
-        System.out.println(" fmeasure:"+foodFitnesses[index]);
+        
+        System.out.println(Arrays.toString(selectedFeatureVector)+" fmeasure:"+foodFitnesses[index]);
         ip.createARFF(data,selectedFeatureVector,newpathname);
         return data;
     }
