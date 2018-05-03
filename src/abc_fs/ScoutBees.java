@@ -18,10 +18,8 @@ public class ScoutBees {
         int     newFoodSources[][]=new int[attrNumber-1][attrNumber-1];
         Random  rand = new Random(1);
         double  n;
-        //double  MR=0.5; // modification rate
         int singlefood[]=new int[attrNumber-1];
         boolean e=true;
-        int numofchange=0; // değişiklik sayısı
         int i=0;
         boolean change=true;
         while(i<newFoodSources.length){
@@ -31,9 +29,9 @@ public class ScoutBees {
                 n=rand.nextDouble();
                 // rastgele gelen sayı büyükse değişiklik yap
                 if (n>MR) 
-                { newFoodSources[i][j]=0; numofchange++;}
+                { newFoodSources[i][j]=0;}
                 else
-                {newFoodSources[i][j]=1; numofchange++; change=false; }
+                {newFoodSources[i][j]=1; change=false; }
                 }
             }
             change=true;
@@ -55,8 +53,6 @@ public class ScoutBees {
             }
             
         }
-        
-        
         return newFoodSources;
     }
 }

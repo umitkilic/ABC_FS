@@ -49,15 +49,18 @@ public class Steps {
                 System.out.print(i+". foodsource:"+ Arrays.toString(foodSource[i]) +" fitness:"+foodFitnesses[i]);
                 System.out.println(" ");    
             }
-            
+            Long time1=System.currentTimeMillis();
             // foodsource: değiştirilecek besin kaynakları, attributeSayisi: dizileri oluşturmak için
             foodsourceslist=e_bee.determineNeighbors(foodSource,dikey_limit,yatay_limit,attributeSayisi,foldnumber,MR,pathname); 
-            System.out.print("emp.bees deter. neig...");
+            Long time2=System.currentTimeMillis();
+            System.out.print("emp.bees deter. neig...Time:"+(time2-time1)+"...");
             
-            
+            time1=System.currentTimeMillis();
             //------------------------------- ziyaret edilenler arasında en iyiler bulunuyor
             foodSource_eBees=e_bee.findBestFoodSources(foodSource, foodsourceslist,dikey_limit,yatay_limit).clone();
-            System.out.print("employed bee find best..");
+            time2=System.currentTimeMillis();
+            System.out.print("employed bee find best..Time:"+(time2-time1)+"...");
+            time1=System.currentTimeMillis();
             for (int i = 0; i < foodFitnesses.length; i++) {
                 int m[]=new int[foodSource_eBees[0].length];
                 System.arraycopy(foodSource_eBees[i], 0, m, 0, m.length);
@@ -80,15 +83,18 @@ public class Steps {
                     }
                 }
             }
-            System.out.println("employed bee section end..");
+            time2=System.currentTimeMillis();
+            System.out.println("employed bee section end..Time:"+(time2-time1)+"...");
             // ---->>> EMPLOYED BEE SECTION ends <<<<-----  ///
                 
             System.out.print("onlooker bee section start..");
             // ----->>> ONLOOKEER BEE SECTION starts  <<<---- /////
+            
             int onlookerfoods[][]=new int[foodSource.length][foodSource.length];
             OnlookerBees onlookers=new OnlookerBees();
             onlookerfoods=onlookers.onLook(foodSource, foodFitnesses,foldnumber, pathname,MR).clone();
             double onlookerfoodfitnesses[]=new double[onlookerfoods[0].length];
+            
             for (int i = 0; i < onlookerfoodfitnesses.length; i++) {
                 int m[]=new int[onlookerfoods[0].length];
                 System.arraycopy(onlookerfoods[i], 0, m, 0, m.length);
@@ -96,11 +102,17 @@ public class Steps {
             }
             
             // foodsource: değiştirilecek besin kaynakları, attributeSayisi: dizileri oluşturmak için
+            time1=System.currentTimeMillis();
             foodsourceslist=e_bee.determineNeighbors(onlookerfoods,dikey_limit,yatay_limit,attributeSayisi,foldnumber,MR,pathname);
-            System.out.print("onlooker bee det. neig...");
+            time2=System.currentTimeMillis();
+            System.out.print("onlooker bee det. neig...Time:"+(time2-time1)+"...");
             // ziyaret edilenler arasında en iyiler bulunuyor
+            time1=System.currentTimeMillis();
             foodSource_oBees=e_bee.findBestFoodSources(onlookerfoods, foodsourceslist,dikey_limit,yatay_limit).clone();
-            System.out.print("onlooker bee find best..");
+            time2=System.currentTimeMillis();
+            System.out.print("onlooker bee find best..Time:"+(time2-time1)+"...");
+            
+            time1=System.currentTimeMillis();
             for (int i = 0; i < onlookerfoods.length; i++) {
                 int m[]=new int[foodSource_oBees[0].length];
                 System.arraycopy(foodSource_oBees[i], 0, m, 0, m.length);
@@ -149,13 +161,15 @@ public class Steps {
                 }
                 
             }
-            System.out.println("onlooker bee section end..");
+            time2=System.currentTimeMillis();
+            System.out.println("onlooker bee section end..Time:"+(time2-time1)+"...");
             // ----->>> ONLOOKEER BEE SECTION ends  <<<---- /////
             
             System.out.print("scout bee section start..");
             ///---->>>  SCOUT BEE SECTION starts <<<<------ //
-            int newfoodsources[][]=new int[attributeSayisi-1][attributeSayisi-1];
+            int newfoodsources[][];
             ScoutBees scout=new ScoutBees();
+            
             newfoodsources=scout.createRandomFoodSource(attributeSayisi, foodSource,MR).clone(); // scout bee ler rastgele yeni kaynaklar keşfediyor
             
             
@@ -167,11 +181,17 @@ public class Steps {
             }
 
             // foodsource: değiştirilecek besin kaynakları, attributeSayisi: dizileri oluşturmak için
+            time1=System.currentTimeMillis();
             foodsourceslist=e_bee.determineNeighbors(newfoodsources,dikey_limit,yatay_limit,attributeSayisi,foldnumber,MR,pathname);
-            System.out.print("scout bee section det. neig..");
+            time2=System.currentTimeMillis();
+            System.out.print("scout bee section det. neig..Time:"+(time2-time1)+"...");
             // ziyaret edilenler arasında en iyiler bulunuyor
+            time1=System.currentTimeMillis();
             foodSource_sBees=e_bee.findBestFoodSources(newfoodsources, foodsourceslist,dikey_limit,yatay_limit).clone();
-            System.out.print("scout bee find best..");
+            time2=System.currentTimeMillis();
+            System.out.print("scout bee find best..Time:"+(time2-time1)+"...");
+            
+            time1=System.currentTimeMillis();
             for (int i = 0; i < newfoodfitnesses.length; i++) {
                 int m[]=new int[foodSource_sBees[0].length];
                 System.arraycopy(foodSource_sBees[i], 0, m, 0, m.length);
@@ -221,7 +241,8 @@ public class Steps {
                 }
                 
             }
-            System.out.println("scout bee section end..");
+            time2=System.currentTimeMillis();
+            System.out.println("scout bee section end..Time:"+(time2-time1)+"...");
             
             
             System.out.println("\nSONUÇ:");

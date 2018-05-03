@@ -28,15 +28,14 @@ public class getFitnessValue {
         Instances data=init.readData(filepath);
         int N=data.numAttributes();
         double fitness=0.0;
-        Instances data1=data;
+        //Instances data1=data;
         
         try{
-            //classifier=new RandomForest();
-            classifier=new IBk(3); // sınıflandırıcı oluşturuldu
+            classifier=new RandomForest();
+            //classifier=new IBk(3); // sınıflandırıcı oluşturuldu
             data=this.deleteZeros(food, N, data);
             eval=new Evaluation(data); // degerlendirici olusturuldu
-            
-            eval.crossValidateModel(classifier, data1, foldnumber, new Random(1));
+            eval.crossValidateModel(classifier, data, foldnumber, new Random(1));
             fitness=eval.weightedFMeasure();
             //fitness=eval.pctCorrect();
         }catch(Exception ex){
@@ -64,14 +63,6 @@ public class getFitnessValue {
         }
         
         return dataset;
-        /*int girildi=0;
-        for (int i = 0; i < N-1; i++) {
-            if(food[i]==0){                
-                data2.deleteAttributeAt(i-girildi);
-                girildi+=1;
-            }else{
-            }
-        }
-        return data2;*/
+        
     }
 }
