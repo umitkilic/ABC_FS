@@ -23,13 +23,13 @@ public class Abc_fs {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        int                 iterationNumber=100;
+        int                 iterationNumber=30;
         int                 foldnumber=10;
         double              MR=0.3;
-        String              filepath="C:/SCADI.arff";
+        String              filepath="C://all_data_football_class45au.arff";
         int                 fileno=0;
         String              filenostr=Integer.toString(fileno);
-        String              newfilepath="/file"+filenostr+".arff";
+        String              newfilepath="/yenidosya"+filenostr+".arff";
         Instances data;
         initialization_phase ip=new initialization_phase();
         data=ip.readData(filepath); // veri alınıyor
@@ -49,3 +49,4 @@ public class Abc_fs {
     
     
 }
+

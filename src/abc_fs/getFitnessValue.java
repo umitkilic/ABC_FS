@@ -10,8 +10,17 @@ import java.util.List;
 import java.util.Random;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.classifiers.bayes.BayesNet;
+import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.functions.MultilayerPerceptron;
+import weka.classifiers.functions.SMO;
 import weka.classifiers.lazy.IBk;
+import weka.classifiers.meta.Bagging;
+import weka.classifiers.rules.DecisionTable;
+import weka.classifiers.rules.OneR;
+import weka.classifiers.trees.J48;
 import weka.classifiers.trees.RandomForest;
+import weka.classifiers.trees.RandomTree;
 import weka.core.Debug;
 import weka.core.Instances;
 
@@ -31,8 +40,18 @@ public class getFitnessValue {
         //Instances data1=data;
         
         try{
-            classifier=new RandomForest();
-            //classifier=new IBk(3); // sınıflandırıcı oluşturuldu
+            
+            classifier=new BayesNet();                // * +
+            //classifier=new MultilayerPerceptron();    // ***** 
+            //classifier=new RandomTree();              // * +
+            //classifier=new J48();                     // ** +
+            //classifier=new Bagging();                 // *** +
+            //classifier=new NaiveBayes();              // * +
+            //classifier=new DecisionTable();           // ** + (ayarlanacak)
+            //classifier=new SMO();                     // **** +
+            //classifier=new RandomForest();              // **** -
+            //classifier=new OneR();                      // ** +
+            //classifier=new IBk(3); // sınıflandırıcı oluşturuldu // * +
             data=this.deleteZeros(food, N, data);
             eval=new Evaluation(data); // degerlendirici olusturuldu
             eval.crossValidateModel(classifier, data, foldnumber, new Random(1));
